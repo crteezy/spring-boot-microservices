@@ -1,10 +1,10 @@
-package com.github.crteezy.gameinfoservice;
+package com.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GameInfoServiceApplicationTests {
+class GameRatingsServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

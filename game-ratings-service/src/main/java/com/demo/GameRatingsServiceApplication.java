@@ -1,4 +1,4 @@
-package com.github.crteezy.gameratingsservice;
+package com.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
