@@ -1,6 +1,5 @@
 package com.demo.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.demo.model.Catalog;
 import com.demo.model.Game;
 import com.demo.model.Rating;
+import com.demo.model.UserRating;
 
 @Controller
 @RequestMapping("/catalog")
@@ -31,10 +31,8 @@ public class GameCatalogController {
 	public List<Catalog> getCatalog(@PathVariable String userId) {
 		
 		
-		List<Rating> ratings = Arrays.asList(
-				new Rating(1L, 1L, 4.5),
-				new Rating(2L, 2L, 4.0)
-		);
+		UserRating userRatings = template.getForObject("http://localhost:8083/ratings/users/"+userId, UserRating.class);
+		List<Rating> ratings = userRatings.getUserRatings();
 		
 		return ratings.stream().map(rating -> {
 			
