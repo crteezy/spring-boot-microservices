@@ -17,7 +17,7 @@ public class RatingsController {
 
 	@RequestMapping("/{movieId}")
 	@ResponseBody
-	public Rating getRating(@PathVariable("gameId") Long movieId) {
+	public Rating getRating(@PathVariable("movieId") Long movieId) {
 		return new Rating(1L, movieId, 4.5);
 	}
 
