@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.demo.model.Game;
+import com.demo.model.Movie;
 
 @Controller
-@RequestMapping("/games")
-public class GameInfoController {
+@RequestMapping("/movies")
+public class MovieInfoController {
 
-	@RequestMapping("/{gameId}")
+	@RequestMapping("/{movieId}")
 	@ResponseBody
-	public Game getGameInfo(@PathVariable("gameId") Long id){
-		return new Game(id, "BattleField 1");
+	public Movie getGameInfo(@PathVariable("movieId") Long id){
+		return new Movie(id, "BattleField 1");
 	}
 }

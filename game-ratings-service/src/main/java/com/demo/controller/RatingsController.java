@@ -15,10 +15,10 @@ import com.demo.model.UserRating;
 @RequestMapping("/ratings")
 public class RatingsController {
 
-	@RequestMapping("/{gameId}")
+	@RequestMapping("/{movieId}")
 	@ResponseBody
-	public Rating getRating(@PathVariable("gameId") Long gameId) {
-		return new Rating(1L, gameId, 4.5);
+	public Rating getRating(@PathVariable("gameId") Long movieId) {
+		return new Rating(1L, movieId, 4.5);
 	}
 
 	@RequestMapping("/users/{userId}")

@@ -1,15 +1,15 @@
 package com.demo.model;
 
-public class Game {
+public class Movie {
 
 	private Long id;
 	private String name;
 
-	public Game() {
+	public Movie() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Game(Long id, String name) {
+	public Movie(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

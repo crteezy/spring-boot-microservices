@@ -3,7 +3,7 @@ package com.demo.model;
 public class Rating {
 
 	private Long id;
-	private Long gameId;
+	private Long movieId;
 	private double rate;
 
 	public Rating() {
@@ -13,7 +13,7 @@ public class Rating {
 	public Rating(Long id, Long movieId, double rate) {
 		super();
 		this.id = id;
-		this.gameId = movieId;
+		this.movieId = movieId;
 		this.rate = rate;
 	}
 
@@ -25,12 +25,12 @@ public class Rating {
 		this.id = id;
 	}
 
-	public Long getGameId() {
-		return gameId;
+	public Long getMovieId() {
+		return movieId;
 	}
 
-	public void setGameId(Long movieId) {
-		this.gameId = movieId;
+	public void setMovieId(Long movieId) {
+		this.movieId = movieId;
 	}
 
 	public double getRate() {

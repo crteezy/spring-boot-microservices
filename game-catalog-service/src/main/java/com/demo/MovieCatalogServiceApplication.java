@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class GameCatalogServiceApplication {
+public class MovieCatalogServiceApplication {
 
 	@Bean // to make it singleton
 	@LoadBalanced // for Eureka client
@@ -25,7 +25,7 @@ public class GameCatalogServiceApplication {
 	}
 	
 	public static void main(String[] args) {
-		SpringApplication.run(GameCatalogServiceApplication.class, args);
+		SpringApplication.run(MovieCatalogServiceApplication.class, args);
 	}
 
 }

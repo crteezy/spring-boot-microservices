@@ -12,13 +12,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.demo.model.Catalog;
-import com.demo.model.Game;
+import com.demo.model.Movie;
 import com.demo.model.Rating;
 import com.demo.model.UserRating;
 
 @Controller
 @RequestMapping("/catalog")
-public class GameCatalogController {
+public class MovieCatalogController {
 	
 	@Autowired
 	private RestTemplate template;
@@ -31,23 +31,23 @@ public class GameCatalogController {
 	public List<Catalog> getCatalog(@PathVariable String userId) {
 		
 		
-		UserRating userRatings = template.getForObject("http://game-ratings-service/ratings/users/"+userId, UserRating.class);
+		UserRating userRatings = template.getForObject("http://movie-ratings-service/ratings/users/"+userId, UserRating.class);
 		List<Rating> ratings = userRatings.getUserRatings();
 		
 		return ratings.stream().map(rating -> {
 			
 			// RestTemplate
-//			Game game = template.getForObject("http://localhost:8082/games/" + rating.getGameId(), Game.class);
+//			Movie movie = template.getForObject("http://localhost:8082/movies/" + rating.getGameId(), Movie.class);
 			
 			// WebClient
-			Game game = builder.build()
+			Movie movie = builder.build()
 			.get()
-			.uri("http://game-info-service/games/" + rating.getGameId())
+			.uri("http://movie-info-service/movies/" + rating.getMovieId())
 			.retrieve()
-			.bodyToMono(Game.class)
+			.bodyToMono(Movie.class)
 			.block();
 			
-			return new Catalog(1L, game.getName(), "Desc", rating.getRate());
+			return new Catalog(1L, movie.getName(), "Desc", rating.getRate());
 			
 		}).collect(Collectors.toList());
 
