@@ -1,8 +1,5 @@
 package com.demo.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +21,8 @@ public class RatingsController {
 	@RequestMapping("/users/{userId}")
 	@ResponseBody
 	public UserRating getUserRatings(@PathVariable("userId") String userId) {
-		List<Rating> ratings = Arrays.asList(
-				new Rating(1L, 1L, 4.5),
-				new Rating(2L, 2L, 4.0)
-		);
-
 		UserRating userRating = new UserRating();
-		userRating.setUserRatings(ratings);
-
-		return userRating;
+        userRating.initData(userId);
+        return userRating;
 	}
 }

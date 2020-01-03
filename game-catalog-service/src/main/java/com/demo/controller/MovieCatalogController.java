@@ -32,7 +32,7 @@ public class MovieCatalogController {
 		
 		
 		UserRating userRatings = template.getForObject("http://movie-ratings-service/ratings/users/"+userId, UserRating.class);
-		List<Rating> ratings = userRatings.getUserRatings();
+		List<Rating> ratings = userRatings.getRatings();
 		
 		return ratings.stream().map(rating -> {
 			
