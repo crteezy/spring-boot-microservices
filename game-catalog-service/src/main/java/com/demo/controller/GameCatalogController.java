@@ -31,7 +31,7 @@ public class GameCatalogController {
 	public List<Catalog> getCatalog(@PathVariable String userId) {
 		
 		
-		UserRating userRatings = template.getForObject("http://localhost:8083/ratings/users/"+userId, UserRating.class);
+		UserRating userRatings = template.getForObject("http://game-ratings-service/ratings/users/"+userId, UserRating.class);
 		List<Rating> ratings = userRatings.getUserRatings();
 		
 		return ratings.stream().map(rating -> {
@@ -42,7 +42,7 @@ public class GameCatalogController {
 			// WebClient
 			Game game = builder.build()
 			.get()
-			.uri("http://localhost:8082/games/" + rating.getGameId())
+			.uri("http://game-info-service/games/" + rating.getGameId())
 			.retrieve()
 			.bodyToMono(Game.class)
 			.block();
