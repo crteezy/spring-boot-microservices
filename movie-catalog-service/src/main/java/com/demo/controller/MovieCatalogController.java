@@ -1,5 +1,7 @@
 package com.demo.controller;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import com.demo.model.Catalog;
 import com.demo.model.Movie;
 import com.demo.model.Rating;
 import com.demo.model.UserRating;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Controller
 @RequestMapping("/catalog")
@@ -28,6 +31,7 @@ public class MovieCatalogController {
 
 	@RequestMapping("/{userId}")
 	@ResponseBody
+	@HystrixCommand(fallbackMethod = "getFallbackCatalog")
 	public List<Catalog> getCatalog(@PathVariable String userId) {
 		
 		
@@ -52,5 +56,13 @@ public class MovieCatalogController {
 		}).collect(Collectors.toList());
 
 //		return Collections.singletonList(new Catalog(1L, "Catalog 1", "Description 1", 4.0));
+	}
+	
+	public List<Catalog> getFallbackCatalog(@PathVariable String userId) {
+		return Arrays.asList(
+				new Catalog(1L, "Catalog 1", "Description 1", 3.0),
+				new Catalog(2L, "Catalog 2", "Description 2", 4.0)
+		);
+				
 	}
 }
