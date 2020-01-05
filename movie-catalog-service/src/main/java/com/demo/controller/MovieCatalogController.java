@@ -31,34 +31,52 @@ public class MovieCatalogController {
 
 	@RequestMapping("/{userId}")
 	@ResponseBody
-	@HystrixCommand(fallbackMethod = "getFallbackCatalog")
+//	@HystrixCommand(fallbackMethod = "getFallbackCatalog")
 	public List<Catalog> getCatalog(@PathVariable String userId) {
 		
-		
-		UserRating userRatings = template.getForObject("http://movie-ratings-service/ratings/users/"+userId, UserRating.class);
+		UserRating userRatings = getUserRating(userId);
 		List<Rating> ratings = userRatings.getRatings();
 		
 		return ratings.stream().map(rating -> {
-			
-			// RestTemplate
-//			Movie movie = template.getForObject("http://localhost:8082/movies/" + rating.getGameId(), Movie.class);
-			
-			// WebClient
-			Movie movie = builder.build()
-			.get()
-			.uri("http://movie-info-service/movies/" + rating.getMovieId())
-			.retrieve()
-			.bodyToMono(Movie.class)
-			.block();
-			
-			return new Catalog(1L, movie.getName(), movie.getDescription(), rating.getRate());
-			
+			return getCatalogItem(rating);
 		}).collect(Collectors.toList());
 
-//		return Collections.singletonList(new Catalog(1L, "Catalog 1", "Description 1", 4.0));
+		// return Collections.singletonList(new Catalog(1L, "Catalog 1", "Description 1", 4.0));
+	}
+
+	@HystrixCommand(fallbackMethod = "getFallbackCatalogItem")
+	private Catalog getCatalogItem(Rating rating) {
+		// RestTemplate
+		// Movie movie = template.getForObject("http://localhost:8082/movies/" + rating.getGameId(), Movie.class);
+		
+		// WebClient
+		Movie movie = builder.build()
+		.get()
+		.uri("http://movie-info-service/movies/" + rating.getMovieId())
+		.retrieve()
+		.bodyToMono(Movie.class)
+		.block();
+		
+		return new Catalog(1L, movie.getName(), movie.getDescription(), rating.getRate());
 	}
 	
-	public List<Catalog> getFallbackCatalog(@PathVariable String userId) {
+	private Catalog getFallbackCatalogItem(Rating rating) {
+		return new Catalog(0L, "Not Found", "Movie Not Found", rating.getRate());
+	}
+
+	@HystrixCommand(fallbackMethod = "getFallbackUserRating")
+	private UserRating getUserRating(String userId) {
+		return template.getForObject("http://movie-ratings-service/ratings/users/"+userId, UserRating.class);
+	}
+	
+	private UserRating getFallbackUserRating(String userId) {
+		UserRating ur = new UserRating();
+		ur.setUserId(userId);
+		ur.setRatings(Arrays.asList(new Rating(0L, 0L, 0)));
+		return ur;
+	}
+	
+	public List<Catalog> getFallbackCatalog(String userId) {
 		return Arrays.asList(
 				new Catalog(1L, "Catalog 1", "Description 1", 3.0),
 				new Catalog(2L, "Catalog 2", "Description 2", 4.0)
